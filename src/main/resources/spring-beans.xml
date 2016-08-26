@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/aop  http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+    <!-- 开启注解装配 -->
+    <context:annotation-config/>
+
+    <!--自动扫描-->
+    <context:component-scan base-package="com.zf.bean">
+    </context:component-scan>
+
+    <bean id="car" class="com.zf.bean.Car">
+        <constructor-arg value="BYD"/>
+    </bean>
+
+    <bean id="personAction" class="com.zf.bean.PersonAction"/>
+
+    <bean id="person" class="com.zf.bean.Person">
+        <!--<property name="car" ref="car"/>-->
+        <property name="name" value="zhangfeng"/>
+    </bean>
+
+    <aop:config>
+        <aop:aspect ref="personAction">
+            <!--定义切点-->
+            <aop:pointcut id="runPoint" expression="execution(* com.zf.bean.Person.run(..))"/>
+            <!--前置通知-->
+            <aop:before method="start" pointcut="execution(* com.zf.bean.Person.run(..))"  />
+            <!--后置通知-->
+            <aop:after method="end" pointcut-ref="runPoint" />
+            <!--环绕通知-->
+            <aop:around method="watchPerson" pointcut-ref="runPoint"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>
