@@ -16,11 +16,14 @@
     <context:component-scan base-package="com.zf.bean">
     </context:component-scan>
 
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
     <bean id="car" class="com.zf.bean.Car">
         <constructor-arg value="BYD"/>
     </bean>
 
     <bean id="personAction" class="com.zf.bean.PersonAction"/>
+    <bean id="audience" class="com.zf.bean.Audience"/>
 
     <bean id="person" class="com.zf.bean.Person">
         <!--<property name="car" ref="car"/>-->
